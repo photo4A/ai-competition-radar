@@ -2,35 +2,32 @@
 
 网页端 AI 比赛雷达：打开浏览器即可盯盘，**每分钟自动检查** aivs.one / Devpost 是否有新赛。
 
-## 线上地址（已重新部署）
+## 线上地址（已同步最新）
 
-**立即打开：** [https://temporary-turbo-flurry-nfv42iq.vercel.app](https://temporary-turbo-flurry-nfv42iq.vercel.app)
+**立即打开：** [https://temporary-rushing-harp-u6j5h0l.vercel.app](https://temporary-rushing-harp-u6j5h0l.vercel.app)
 
-> 关掉 Cursor 也能打开。  
-> **请在 60 分钟内点下面链接认领**，否则会过期：  
-> **[认领到你的 Vercel 账号（永久保留）](https://vercel.com/claim-deployment?code=ceee4f87-b1f7-4924-9096-b0c9ea16f224)**
+> 已去掉「已部署 · 关掉 Cursor 也能打开」提示。  
+> **请在 60 分钟内认领**（覆盖/替换旧站点）：  
+> **[认领到你的 Vercel 账号](https://vercel.com/claim-deployment?code=c6a53513-05b9-4f04-9caf-5085db9d759b)**
 
-认领后站点会挂到你的 Vercel 名下，之后长期可用。
+若你已有认领过的正式站点：到 [Vercel Dashboard](https://vercel.com/dashboard) → 该项目 → **Redeploy** 最新 Production；或把 GitHub 仓库连上 Vercel 后会自动同步。
 
 仓库：https://github.com/photo4A/ai-competition-radar
 
-一键重新部署：  
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/photo4A/ai-competition-radar)
 
 ---
 
 ## 本地开发
 
-必须带端口，否则会 `ERR_CONNECTION_REFUSED`：
-
 **[http://127.0.0.1:43127](http://127.0.0.1:43127)**
 
 ```bash
 npm install
-npm run dev      # 开发
-npm run serve    # 生产模式
-npm run ensure   # 检测并拉起
-npm run deploy   # 部署到自己的 Vercel
+npm run dev
+npm run serve
+npm run ensure
+npm run deploy
 ```
 
 ## 功能
