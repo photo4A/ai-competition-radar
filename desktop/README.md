@@ -3,21 +3,44 @@
 独立桌面窗口，快捷打开线上站点：  
 https://workspace-beta-sand-54.vercel.app
 
-## 启动
+## Windows 最快用法（推荐）
 
-在仓库根目录：
+### 方式 A：双击打开网站（不用装依赖）
 
-```bash
+1. 从 GitHub 下载/克隆本仓库  
+2. 打开文件夹 `desktop`  
+3. 双击 **`赛讯Radar.url`** 或 **`open-radar.bat`**
+
+可以把 `.url` / `.bat` 发送到桌面当快捷方式。
+
+### 方式 B：Electron 桌面窗口
+
+先进入**项目根目录**（不要在 `C:\Windows\System32`）：
+
+```powershell
+# 1) 克隆（只需一次）
+cd $HOME\Desktop
+git clone https://github.com/photo4A/ai-competition-radar.git
+cd ai-competition-radar
+
+# 2) 安装并启动桌面端
 npm run desktop:install
 npm run desktop
 ```
 
-或进入本目录：
+如果仓库已经在本机，只要：
+
+```powershell
+cd 你的路径\ai-competition-radar
+npm run desktop:install
+npm run desktop
+```
+
+## macOS / Linux
 
 ```bash
-cd desktop
-npm install
-npm start
+npm run desktop:install
+npm run desktop
 ```
 
 ## 换地址

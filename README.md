@@ -16,7 +16,27 @@ npm run deploy
 
 ## 桌面 App（快捷入口）
 
-独立窗口打开线上站点，不用每次找浏览器标签：
+### Windows
+
+先进入项目目录（不要在 `C:\Windows\System32`）：
+
+```powershell
+cd $HOME\Desktop
+git clone https://github.com/photo4A/ai-competition-radar.git
+cd ai-competition-radar
+```
+
+然后任选：
+
+- **最快**：打开 `desktop` 文件夹，双击 `赛讯Radar.url` 或 `open-radar.bat`
+- **桌面窗口**：
+
+```powershell
+npm run desktop:install
+npm run desktop
+```
+
+### macOS / Linux
 
 ```bash
 npm run desktop:install
