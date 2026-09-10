@@ -40,8 +40,8 @@ function mapKind(event: AivsEvent): Competition["kind"] {
   const cat = (event.category ?? "").toLowerCase();
   const format = (event.format ?? "").toLowerCase();
   const blob = `${event.name} ${event.desc ?? ""} ${(event.tracks ?? []).join(" ")}`;
-  if (/\u9ed1\u5ba2\u677e|hackathon/i.test(blob) || format.includes("hack")) return "hackathon";
-  if (/\u667a\u80fd\u4f53|agent/i.test(blob)) return "agent";
+  if (/黑客松|hackathon/i.test(blob) || format.includes("hack")) return "hackathon";
+  if (/智能体|agent/i.test(blob)) return "agent";
   if (cat === "project") return "application";
   return "aigc";
 }
@@ -65,7 +65,7 @@ function mapStatus(event: AivsEvent, today: string): Competition["status"] {
 function mapEvent(event: AivsEvent, today: string): Competition {
   const prize =
     event.rewardSummary?.primaryLabel ||
-    (event.prizePool && event.prizePool !== "\u2014" ? event.prizePool : undefined);
+    (event.prizePool && event.prizePool !== "—" ? event.prizePool : undefined);
 
   return {
     id: `aivs-${event.id}`,
@@ -73,7 +73,7 @@ function mapEvent(event: AivsEvent, today: string): Competition {
     url: event.url,
     summary:
       event.desc?.trim() ||
-      `${event.organizer ?? event.platform ?? "\u5e73\u53f0"} AI \u521b\u4f5c/\u5f00\u53d1\u8d5b\u4e8b`,
+      `${event.organizer ?? event.platform ?? "平台"} AI 创作/开发赛事`,
     region: event.mode === "offline" ? "cn" : "online",
     kind: mapKind(event),
     status: mapStatus(event, today),
@@ -81,13 +81,13 @@ function mapEvent(event: AivsEvent, today: string): Competition {
     prize,
     deadline: event.deadline?.slice(0, 10) || undefined,
     deadlineLabel: event.deadline
-      ? `\u622a\u6b62 ${event.deadline.slice(0, 10)}`
+      ? `截止 ${event.deadline.slice(0, 10)}`
       : undefined,
     source: "aivs.one",
     tags: [
       event.platform,
       ...(event.tracks ?? []).slice(0, 3),
-      event.mode === "online" ? "\u7ebf\u4e0a" : event.mode,
+      event.mode === "online" ? "线上" : event.mode,
     ].filter(Boolean) as string[],
     publishedAt: event.regStart
       ? `${event.regStart.slice(0, 10)}T00:00:00.000Z`
