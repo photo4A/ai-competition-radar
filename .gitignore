@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# desktop electron
+desktop/node_modules/
+desktop/release/
+desktop/dist/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.contest-snapshot.json

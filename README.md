@@ -14,6 +14,17 @@ npm run deploy
 
 仓库：https://github.com/photo4A/ai-competition-radar
 
+## 桌面 App（快捷入口）
+
+独立窗口打开线上站点，不用每次找浏览器标签：
+
+```bash
+npm run desktop:install
+npm run desktop
+```
+
+详情见 `desktop/README.md`。
+
 ---
 
 ## 本地开发
