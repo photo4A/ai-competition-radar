@@ -58,15 +58,6 @@ export default async function HomePage() {
             <span className="rounded-lg border border-hairline bg-surface-1 px-3.5 py-2 font-medium text-ink-muted">
               今日新增 {payload.todayNewCount}
             </span>
-            {!process.env.VERCEL ? (
-              <span className="rounded-lg border border-hairline bg-surface-1 px-3.5 py-2 font-mono text-[12px] text-ink-subtle">
-                本地：http://127.0.0.1:43127
-              </span>
-            ) : (
-              <span className="rounded-lg border border-hairline bg-surface-1 px-3.5 py-2 text-[12px] text-ink-subtle">
-                已部署 · 关掉 Cursor 也能打开
-              </span>
-            )}
           </div>
         </div>
       </section>
