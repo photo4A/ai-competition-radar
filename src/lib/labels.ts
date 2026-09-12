@@ -75,10 +75,13 @@ export function isPublishedToday(publishedAt?: string): boolean {
   return publishedAt.slice(0, 10) === today;
 }
 
+/** Newly published contests stay in the “刚发布” lane for one week. */
+export const FRESH_WINDOW_DAYS = 7;
+
 /** Newly listed contests: published within the last N Shanghai calendar days. */
 export function isFreshlyPublished(
   publishedAt?: string,
-  withinDays = 3,
+  withinDays = FRESH_WINDOW_DAYS,
 ): boolean {
   if (!publishedAt) return false;
   const day = publishedAt.slice(0, 10);
@@ -92,7 +95,8 @@ export function isFreshlyPublished(
   const diffDays = Math.round(
     (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
   );
-  return diffDays >= 0 && diffDays <= withinDays;
+  // Keep for a full week: day 0 (today) through day 6.
+  return diffDays >= 0 && diffDays < withinDays;
 }
 
 export function platformLabel(platform?: string, organizer?: string): string {

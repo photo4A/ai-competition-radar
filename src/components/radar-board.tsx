@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { useLiveRadar } from "@/hooks/use-live-radar";
 import { useSeenCompetitions } from "@/hooks/use-seen-competitions";
 import {
+  FRESH_WINDOW_DAYS,
   formatUpdatedAt,
   isFreshlyPublished,
   KIND_LABEL,
@@ -50,7 +51,7 @@ export function RadarBoard({ initial }: { initial: CompetitionsPayload }) {
   } = live;
 
   const [query, setQuery] = useState("");
-  const [status, setStatus] = useState<StatusFilter>("open");
+  const [status, setStatus] = useState<StatusFilter>("fresh");
   const [region, setRegion] = useState<RegionFilter>("all");
   const [kind, setKind] = useState<KindFilter>("all");
   const [onlyToday, setOnlyToday] = useState(false);
@@ -62,13 +63,14 @@ export function RadarBoard({ initial }: { initial: CompetitionsPayload }) {
     timeZone: "Asia/Shanghai",
   });
 
+  const isFreshContest = (c: (typeof competitions)[number]) =>
+    c.status !== "ended" &&
+    (isFreshlyPublished(c.publishedAt, FRESH_WINDOW_DAYS) ||
+      (ready && isNew(c.id)));
+
   const freshCount = useMemo(
-    () =>
-      competitions.filter(
-        (c) =>
-          c.status !== "ended" &&
-          (isFreshlyPublished(c.publishedAt, 3) || (ready && isNew(c.id))),
-      ).length,
+    () => competitions.filter(isFreshContest).length,
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- isFreshContest closes over ready/isNew
     [competitions, ready, isNew],
   );
 
@@ -76,10 +78,7 @@ export function RadarBoard({ initial }: { initial: CompetitionsPayload }) {
     const q = query.trim().toLowerCase();
     return competitions.filter((c) => {
       if (status === "fresh") {
-        const fresh =
-          c.status !== "ended" &&
-          (isFreshlyPublished(c.publishedAt, 3) || (ready && isNew(c.id)));
-        if (!fresh) return false;
+        if (!isFreshContest(c)) return false;
       } else if (status !== "all" && c.status !== status) {
         return false;
       }
@@ -129,7 +128,12 @@ export function RadarBoard({ initial }: { initial: CompetitionsPayload }) {
         onCheckNow={checkNow}
       />
 
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <Stat
+          label="刚发布"
+          value={String(freshCount)}
+          hint={`上线后保留 ${FRESH_WINDOW_DAYS} 天`}
+        />
         <Stat label="报名中" value={String(openCount)} hint="现在就能参加" />
         <Stat
           label="7 天内截止"
@@ -215,7 +219,10 @@ export function RadarBoard({ initial }: { initial: CompetitionsPayload }) {
             { value: "all", label: "全部" },
             {
               value: "fresh",
-              label: freshCount > 0 ? `刚发布 (${freshCount})` : "刚发布",
+              label:
+                freshCount > 0
+                  ? `刚发布 (${freshCount})`
+                  : `刚发布 · ${FRESH_WINDOW_DAYS}天`,
             },
             ...(
               ["open", "upcoming", "watch", "ended"] as CompetitionStatus[]
@@ -269,7 +276,9 @@ export function RadarBoard({ initial }: { initial: CompetitionsPayload }) {
 
         {filtered.length === 0 ? (
           <div className="rounded-xl border border-dashed border-hairline bg-surface-1 px-6 py-16 text-center text-sm text-ink-subtle">
-            没有匹配的赛事。试试清空筛选，或切换到「全部」状态。
+            {status === "fresh"
+              ? `近 ${FRESH_WINDOW_DAYS} 天暂无刚发布赛事。可切换到「报名中」或「全部」。`
+              : "没有匹配的赛事。试试清空筛选，或切换到「全部」状态。"}
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

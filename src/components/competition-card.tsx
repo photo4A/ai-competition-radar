@@ -3,6 +3,7 @@
 import {
   deadlineUrgencyLabel,
   formatDeadlineDot,
+  FRESH_WINDOW_DAYS,
   isClosingSoon,
   isFreshlyPublished,
   isPublishedToday,
@@ -45,7 +46,7 @@ export function CompetitionCard({
   const freshlyPublished =
     !todayNew &&
     competition.status !== "ended" &&
-    isFreshlyPublished(competition.publishedAt, 3);
+    isFreshlyPublished(competition.publishedAt, FRESH_WINDOW_DAYS);
   const platform = platformLabel(competition.platform, competition.organizer);
   const tags = (() => {
     const seen = new Set<string>();
